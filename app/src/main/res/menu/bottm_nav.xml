@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Productos"
+        android:id="@+id/itProducto"
+        android:icon="@drawable/baseline_add_business_24"/>
+    <item android:title="Carrito"
+        android:id="@+id/itCarrito"
+        android:icon="@drawable/baseline_add_shopping_cart_24"/>
+    <item android:title="Facturas"
+        android:id="@+id/itFactura"
+        android:icon="@drawable/baseline_account_balance_wallet_24"/>
+</menu>
