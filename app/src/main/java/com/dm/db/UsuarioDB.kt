@@ -34,7 +34,7 @@ class UsuarioDB (context: Context?){
     fun generarContentValues(nombre: String?, contra:String?, correo:String?): ContentValues?{
         val valores = ContentValues()
         valores.put(COL_NOMBRE, nombre)
-        valores.put(COL_CONTRA, nombre)
+        valores.put(COL_CONTRA, contra)
         valores.put(COL_CORREO,correo)
         return valores
     }
