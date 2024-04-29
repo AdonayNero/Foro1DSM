@@ -1,5 +1,7 @@
 package com.dm.foro1
 
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dm.db.*;
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,19 +22,38 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class CarritoCompra : Fragment() {
+
+    private var dbHelper: DBHelper? = null
+    private var db: SQLiteDatabase? = null
+    private var managerCarrito: CarritoDB?=null
+    private var managerProducto: ProductosDB?=null
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private lateinit var productAdapter: ProductAdapter
     private lateinit var recyclerView: RecyclerView
-    private var productsList = listOf(
-        Producto("001", "Product A", 10.99, 2),
-        Producto("002", "Product B", 15.49, 5),
-        Producto("003", "Product C", 7.20, 3)
-    )
+
+    private var productsList = ArrayList<Producto>()
 
     private fun initializeRecyclerView() {
+        managerCarrito= CarritoDB(context)
+        managerProducto= ProductosDB(context)
+        val contenidoCarrito: Cursor?= managerCarrito!!.obtenerCarritoActual(1)
+        contenidoCarrito!!.moveToFirst()
+        do {
+            //Problema de indices
+            val registro: Cursor?=managerProducto!!.obtenerProducto(contenidoCarrito.getInt(2))
+            val id=registro!!.getInt(0)
+            val nombre=registro!!.getString(1)
+            val precio=registro!!.getDouble(2)
+            val cantidad=registro!!.getInt(3)
+            val producto = Producto(id,nombre,precio,cantidad)
+            productsList.add(producto)
+
+        }while(contenidoCarrito!!.moveToNext())
+
+
         productAdapter = ProductAdapter(productsList)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = productAdapter
@@ -39,6 +61,8 @@ class CarritoCompra : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        dbHelper = DBHelper(context)
+        db = dbHelper!!.writableDatabase
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
