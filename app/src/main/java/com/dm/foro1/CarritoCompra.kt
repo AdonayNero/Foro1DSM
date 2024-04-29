@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +23,20 @@ class CarritoCompra : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var productAdapter: ProductAdapter
+    private lateinit var recyclerView: RecyclerView
+    private var productsList = listOf(
+        Producto("001", "Product A", 10.99, 2),
+        Producto("002", "Product B", 15.49, 5),
+        Producto("003", "Product C", 7.20, 3)
+    )
+
+    private fun initializeRecyclerView() {
+        productAdapter = ProductAdapter(productsList)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = productAdapter
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,7 +50,10 @@ class CarritoCompra : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_carrito_compra, container, false)
+        val view = inflater.inflate(R.layout.fragment_carrito_compra, container, false)
+        recyclerView = view.findViewById(R.id.recyclerViewProductos)
+        initializeRecyclerView()
+        return view
     }
 
     companion object {
