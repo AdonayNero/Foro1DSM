@@ -1,10 +1,7 @@
 package com.dm.foro1
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.widget.Button
